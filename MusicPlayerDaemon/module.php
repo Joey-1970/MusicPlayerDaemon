@@ -55,9 +55,7 @@
 				If (IPS_GetProperty($ParentID, 'Open') <> $this->ReadPropertyBoolean("Open")) {
 		                	IPS_SetProperty($ParentID, 'Open', $this->ReadPropertyBoolean("Open"));
 				}
-				If (IPS_GetName($ParentID) == "Client Socket") {
-		                	IPS_SetName($ParentID, "MusicPlayerDaemon (".$this->InstanceID.")");
-				}
+				
 				if(IPS_HasChanges($ParentID))
 				{
 				    	$Result = @IPS_ApplyChanges($ParentID);
