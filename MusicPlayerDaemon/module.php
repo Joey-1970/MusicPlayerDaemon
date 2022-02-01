@@ -119,6 +119,10 @@
 				case preg_match('/OK MPD.*/', $Message) ? $Message : !$Message:
 					$this->SetValue("LastKeepAlive", time() );
 					break;
+				case preg_match('/ACK.*/', $Message) ? $Message : !$Message:
+					$this->SetValue("LastKeepAlive", time() );
+					$this->SendDebug("ReceiveData", "ACK: Ein Fehler ist aufgetreten!", 0);
+					break;
 				case "OK":
 					$this->SendDebug("ReceiveData", "OK: Befehl erfolgreich", 0);
 					break;
