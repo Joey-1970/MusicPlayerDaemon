@@ -153,10 +153,8 @@
 		$this->SendCommand("next\n");
 	}
 
-	public function SetNewStation(int $newStation) {
-
-		$StationURL = $this->GetStationURL($newStation);
-
+	public function SetNewStation(String $StationURL) 
+	{
 		$this->SendCommand("clear\n");
 		$this->SendCommand("add ".$StationURL." \n");
 		usleep(50000);
