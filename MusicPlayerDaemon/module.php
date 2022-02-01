@@ -14,7 +14,11 @@
 		$this->RegisterPropertyInteger("Port", 6600);
 		
 		// Status-Variablen anlegen
+		$this->RegisterVariableInteger("LastKeepAlive", "Letztes Keep Alive", "~UnixTimestamp", 10);
 		
+		$this->RegisterVariableInteger("Volume","Volume","~Intensity.100", 50);
+		$this->EnableAction("Volume");
+
         }
        	
 	public function GetConfigurationForm() { 
@@ -75,6 +79,7 @@
 						$this->SetStatus(102);
 					}
 					$this->SetNewStation("http://172.27.2.205:9981/stream/channel/800c150e9a6b16078a4a3b3b5aee0672");
+					$this->Status();
 				}
 			}
 			else {
@@ -91,6 +96,9 @@
 	public function RequestAction($Ident, $Value) 
 	{
   		switch($Ident) {
+			case "Volume":
+				$this->SetVolume($Value);
+				break;
 	      		
 	        default:
 	            throw new Exception("Invalid Ident");
@@ -101,29 +109,40 @@
 	{
 		// Empfangene Daten vom I/O
 	    	$Data = json_decode($JSONString);
-		$Message = utf8_decode($Data->Buffer);
-		
-		$this->SendDebug("ReceiveData", "Message: ".$Message, 0);
+		$Message = trim($Message, "\x00..\x1F");
+			$this->SendDebug("ReceiveData", $Message, 0);
+			
+			switch($Message) {
+				case preg_match('/OK MPD.*/', $Message) ? $Message : !$Message:
+					$this->SetValue("LastKeepAlive", time() );
+					break;
+				case "OK":
+					$this->SendDebug("ReceiveData", "OK: Befehl erfolgreich", 0);
+					break;
+				
+			}
 		
 		
 		
 	}
 	    
 	// Beginn der Funktionen
+	public function Status()
+	{
+		$this->Send("status\n");
+	}
+	    
 	public function Play() 
 	{
 		$this->SendCommand("play\n");
 	}
 
-	public function Pause(int $status) {
-		$this->SendCommand("pause ".$status."\n");
+	public function Pause(int $State) {
+		$this->SendCommand("pause ".$State."\n");
 	}
 
 	public function Stop() {
 		$this->SendCommand("stop\n");
-
-		SetValue($this->GetIDForIdent("Titel"),"-");
-		SetValue($this->GetIDForIdent("TimeElapsed"),"-");
 	}
 
 	public function Previous() {
@@ -143,8 +162,8 @@
 		usleep(50000);
 	}
 
-	public function SetVolume(int $newVolume) {
-		$this->SendCommand("setvol ".$newVolume."\n");
+	public function SetVolume(int $Volume) {
+		$this->SendCommand("setvol ".$Volume."\n");
 	}
 	    
 	    
