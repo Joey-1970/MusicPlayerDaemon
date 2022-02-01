@@ -109,8 +109,9 @@
 	{
 		// Empfangene Daten vom I/O
 	    	$Data = json_decode($JSONString);
-		$Message = trim($Data, "\x00..\x1F");
-			$this->SendDebug("ReceiveData", $Message, 0);
+		$Message = utf8_decode($Data->Buffer);
+		$Message = trim($Message, "\x00..\x1F");			
+		$this->SendDebug("ReceiveData", $Message, 0);
 			
 			switch($Message) {
 				case preg_match('/OK MPD.*/', $Message) ? $Message : !$Message:
