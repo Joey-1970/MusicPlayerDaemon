@@ -10,7 +10,8 @@
             	parent::Create();
 		$this->RequireParent("{3CFF0FD9-E306-41DB-9B5A-9D06D38576C3}");
             	$this->RegisterPropertyBoolean("Open", false);
-		
+		$this->RegisterPropertyString("IPAddress", "127.0.0.1");
+		$this->RegisterPropertyInteger("Port", 6600);
 		
 		// Status-Variablen anlegen
 		
@@ -26,6 +27,8 @@
 		
 		$arrayElements = array(); 
 		$arrayElements[] = array("name" => "Open", "type" => "CheckBox",  "caption" => "Aktiv"); 
+		$arrayElements[] = array("type" => "ValidationTextBox", "name" => "IPAddress", "caption" => "IP");
+		$arrayElements[] = array("type" => "NumberSpinner", "name" => "Port", "caption" => "Port (1 - 65535)", "minimum" => 1, "maximum" => 65535);
 				
 		$arrayActions = array(); 
 		$arrayActions[] = array("type" => "Label", "label" => "Test Center"); 
@@ -40,20 +43,49 @@
                 // Diese Zeile nicht löschen
                 parent::ApplyChanges();
 		
-		
-		
-		If ($this->ReadPropertyBoolean("Open") == true) {
-			If ($this->GetStatus() <> 102) {
-				$this->SetStatus(102);
+		If (IPS_GetKernelRunlevel() == KR_READY) {
+			$ParentID = $this->GetParentID();
+			If ($ParentID > 0) {
+				If (IPS_GetProperty($ParentID, 'Host') <> $this->ReadPropertyString('IPAddress')) {
+		                	IPS_SetProperty($ParentID, 'Host', $this->ReadPropertyString('IPAddress'));
+				}
+				If (IPS_GetProperty($ParentID, 'Port') <> $this->ReadPropertyInteger('Port')) {
+		                	IPS_SetProperty($ParentID, 'Port', $this->ReadPropertyInteger('Port'));
+				}
+				If (IPS_GetProperty($ParentID, 'Open') <> $this->ReadPropertyBoolean("Open")) {
+		                	IPS_SetProperty($ParentID, 'Open', $this->ReadPropertyBoolean("Open"));
+				}
+				If (IPS_GetName($ParentID) == "Client Socket") {
+		                	IPS_SetName($ParentID, "MusicPlayerDaemon (".$this->InstanceID.")");
+				}
+				if(IPS_HasChanges($ParentID))
+				{
+				    	$Result = @IPS_ApplyChanges($ParentID);
+					If ($Result) {
+						$this->SendDebug("ApplyChanges", "Einrichtung des Client Socket erfolgreich", 0);
+					}
+					else {
+						$this->SendDebug("ApplyChanges", "Einrichtung des Client Socket nicht erfolgreich!", 0);
+					}
+				}
 			}
 			
-		}
-		else {
-			If ($this->GetStatus() <> 104) {
-				$this->SetStatus(104);
+			If ($this->ReadPropertyBoolean("Open") == true) {
+				
+				If ($this->ConnectionTest() == true) {
+					If ($this->GetStatus() <> 102) {
+						$this->SetStatus(102);
+					}
+				}
 			}
-			
+			else {
+				If ($this->GetStatus() <> 104) {
+					$this->SetStatus(104);
+				}
+			}	   
 		}
+		
+		
 		
 	}
 	
@@ -80,6 +112,11 @@
 	    
 	// Beginn der Funktionen
 	
+	private function GetParentID()
+	{
+		$ParentID = (IPS_GetInstance($this->InstanceID)['ConnectionID']);  
+	return $ParentID;
+	}
 
 	private function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
 	{
