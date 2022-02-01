@@ -2,6 +2,7 @@
     // Klassendefinition
     class MusicPlayerDaemon extends IPSModule 
     {
+	 // https://mpd.readthedocs.io/en/stable/protocol.html#command-reference
 	    
 	// Überschreibt die interne IPS_Create($id) Funktion
         public function Create() 
