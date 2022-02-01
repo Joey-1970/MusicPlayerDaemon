@@ -111,6 +111,39 @@
 	}
 	    
 	// Beginn der Funktionen
+	    
+	private function ConnectionTest()
+	{
+	      	$result = false;
+		$IPAddress = $this->ReadPropertyString("IPAddress");
+		$Port = $this->ReadPropertyInteger("Port");
+	      	If (Sys_Ping($IPAddress, 300)) {
+			$status = @fsockopen($IPAddress, $Port, $errno, $errstr, 10);
+				if (!$status) {
+					$this->SendDebug("ConnectionTest", "Port ".$Port." ist geschlossen!", 0);
+					IPS_LogMessage("MusicPlayerDaemon","Port ".$Port." ist geschlossen!");
+					If ($this->GetStatus() <> 202) {
+						$this->SetStatus(202);
+					}
+				}
+					
+			}
+		      	else {
+				$result = true;
+				If ($this->GetStatus() <> 102) {
+					$this->SetStatus(102);
+				}
+			}
+		}
+		else {
+			$this->SendDebug("ConnectionTest", "IP ".$IPAddress." reagiert nicht!", 0);
+			IPS_LogMessage("MusicPlayerDaemon","IP ".$IPAddress." reagiert nicht!");
+			If ($this->GetStatus() <> 202) {
+				$this->SetStatus(202);
+			}
+		}
+	return $result;
+	}
 	
 	private function GetParentID()
 	{
