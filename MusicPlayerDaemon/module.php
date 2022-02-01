@@ -81,6 +81,7 @@
 					}
 					$this->SetNewStation("http://172.27.2.205:9981/stream/channel/800c150e9a6b16078a4a3b3b5aee0672");
 					$this->Status();
+					$this->GetVolume();
 				}
 			}
 			else {
@@ -139,19 +140,23 @@
 		$this->SendCommand("play\n");
 	}
 
-	public function Pause(int $State) {
+	public function Pause(int $State) 
+	{
 		$this->SendCommand("pause ".$State."\n");
 	}
 
-	public function Stop() {
+	public function Stop() 
+	{
 		$this->SendCommand("stop\n");
 	}
 
-	public function Previous() {
+	public function Previous() 
+	{
 		$this->SendCommand("previous\n");
 	}
 
-	public function Next() {
+	public function Next() 
+	{
 		$this->SendCommand("next\n");
 	}
 
@@ -160,12 +165,18 @@
 		$this->SendCommand("clear\n");
 		$this->SendCommand("add ".$StationURL." \n");
 		usleep(50000);
+		$this->SendCommand("play\n");
 	}
 
-	public function SetVolume(int $Volume) {
+	public function SetVolume(int $Volume) 
+	{
 		$this->SendCommand("setvol ".$Volume."\n");
 	}
-	    
+	
+	public function GetVolume() 
+	{
+		$this->SendCommand("getvol\n");
+	}
 	    
 	public function SendCommand(string $Command)
 	{
