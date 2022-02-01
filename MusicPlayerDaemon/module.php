@@ -74,6 +74,7 @@
 					If ($this->GetStatus() <> 102) {
 						$this->SetStatus(102);
 					}
+					$this->SetNewStation("http://172.27.2.205:9981/stream/channel/800c150e9a6b16078a4a3b3b5aee0672");
 				}
 			}
 			else {
@@ -109,6 +110,50 @@
 	}
 	    
 	// Beginn der Funktionen
+	public function Play() 
+	{
+		$this->SendCommand("play\n");
+	}
+
+	public function Pause(int $status) {
+		$this->SendCommand("pause ".$status."\n");
+	}
+
+	public function Stop() {
+		$this->SendCommand("stop\n");
+
+		SetValue($this->GetIDForIdent("Titel"),"-");
+		SetValue($this->GetIDForIdent("TimeElapsed"),"-");
+	}
+
+	public function Previous() {
+		$this->SendCommand("previous\n");
+	}
+
+	public function Next() {
+		$this->SendCommand("next\n");
+	}
+
+	public function SetNewStation(int $newStation) {
+
+		$StationURL = $this->GetStationURL($newStation);
+
+		$this->SendCommand("clear\n");
+		$this->SendCommand("add ".$StationURL." \n");
+		usleep(50000);
+	}
+
+	public function SetVolume(int $newVolume) {
+		$this->SendCommand("setvol ".$newVolume."\n");
+	}
+	    
+	    
+	public function SendCommand(string $Command)
+	{
+		If (($this->HasActiveParent()) AND ($this->ReadPropertyBoolean("Open") == true)) {
+			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $Command)));
+		}
+	}
 	    
 	private function ConnectionTest()
 	{
