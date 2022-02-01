@@ -1,0 +1,12 @@
+{
+  "id": "{67F2563E-0695-5EB4-6CD0-9F27C95A86F0}",
+  "author": "Joachim Päper",
+  "name": "MusicPlayerDaemon",
+  "url": "www.ip-symcon.de",
+  "compatibility": {
+        "version": "6.0"
+  },
+  "version": "1.0",
+  "build": 0,
+  "date": 0
+}
