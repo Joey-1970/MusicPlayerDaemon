@@ -130,7 +130,7 @@
 	// Beginn der Funktionen
 	public function Status()
 	{
-		$this->Send("status\n");
+		$this->SendCommand("status\n");
 	}
 	    
 	public function Play() 
