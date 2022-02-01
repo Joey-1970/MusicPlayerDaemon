@@ -119,14 +119,12 @@
 		$Port = $this->ReadPropertyInteger("Port");
 	      	If (Sys_Ping($IPAddress, 300)) {
 			$status = @fsockopen($IPAddress, $Port, $errno, $errstr, 10);
-				if (!$status) {
-					$this->SendDebug("ConnectionTest", "Port ".$Port." ist geschlossen!", 0);
-					IPS_LogMessage("MusicPlayerDaemon","Port ".$Port." ist geschlossen!");
-					If ($this->GetStatus() <> 202) {
-						$this->SetStatus(202);
-					}
+			if (!$status) {
+				$this->SendDebug("ConnectionTest", "Port ".$Port." ist geschlossen!", 0);
+				IPS_LogMessage("MusicPlayerDaemon","Port ".$Port." ist geschlossen!");
+				If ($this->GetStatus() <> 202) {
+					$this->SetStatus(202);
 				}
-					
 			}
 		      	else {
 				$result = true;
