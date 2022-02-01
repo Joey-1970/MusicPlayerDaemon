@@ -79,7 +79,7 @@
 					If ($this->GetStatus() <> 102) {
 						$this->SetStatus(102);
 					}
-					$this->SetNewStation("http://172.27.2.205:9981/stream/channel/800c150e9a6b16078a4a3b3b5aee0672");
+					$this->SetNewStation("https://www.ndr.de/resources/metadaten/audio/m3u/ndr2_hh.m3u");
 					$this->Status();
 					$this->GetVolume();
 				}
