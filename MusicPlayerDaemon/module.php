@@ -128,6 +128,16 @@
 				$this->SetVolume($Value);
 				break;
 			case "RadioStations":
+				$RadioStationsString = $this->ReadPropertyString("RadioStations");
+				$RadioStations = json_decode($RadioStationsString);
+				$i = 0;
+				foreach ($RadioStations as $Key => $Link) {
+					If ($i == $Value) {
+						$this->SendDebug("RequestAction", "Radiostationslink: ".$Link, 0);
+					}
+					$i++;
+				}
+				
 				
 				break;
 	      		
