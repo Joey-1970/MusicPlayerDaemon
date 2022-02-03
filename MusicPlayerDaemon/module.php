@@ -13,6 +13,7 @@
             	$this->RegisterPropertyBoolean("Open", false);
 		$this->RegisterPropertyString("IPAddress", "127.0.0.1");
 		$this->RegisterPropertyInteger("Port", 6600);
+		$this->RegisterPropertyString("RadioStations", "");
 		
 		// Status-Variablen anlegen
 		$this->RegisterVariableInteger("LastKeepAlive", "Letztes Keep Alive", "~UnixTimestamp", 10);
@@ -34,6 +35,23 @@
 		$arrayElements[] = array("name" => "Open", "type" => "CheckBox",  "caption" => "Aktiv"); 
 		$arrayElements[] = array("type" => "ValidationTextBox", "name" => "IPAddress", "caption" => "IP");
 		$arrayElements[] = array("type" => "NumberSpinner", "name" => "Port", "caption" => "Port (1 - 65535)", "minimum" => 1, "maximum" => 65535);
+		
+		$arrayElements[] = array("type" => "Label", "caption" => "Radio-Sender");
+		$arraySort = array();
+		$arraySort = array("column" => "RadioStationName", "direction" => "ascending");
+		
+		$arrayEditName = array();
+		$arrayEditName = array("type" => "ValidationTextBox");
+		
+		$arrayEditLink = array();
+		$arrayEditLink = array("type" => "ValidationTextBox");
+		
+		$arrayColumns = array();
+		$arrayColumns[] = array("label" => "Stationsname", "name" => "RadioStationName", "width" => "300px", "add" => "Radio GaGa", "edit" => $arrayEditName);
+		$arrayColumns[] = array("label" => "Link", "name" => "RadioStationLink", "width" => "500px", "add" => "http", "edit" => $arrayEditLink, "align" => "left");
+		
+		$arrayElements[] = array("type" => "List", "name" => "RadioStations", "rowCount" => 10, "add" => true, "delete" => true, "sort" => $arraySort, "columns" => $arrayColumns);
+
 				
 		$arrayActions = array(); 
 		$arrayActions[] = array("type" => "Label", "label" => "Test Center"); 
@@ -113,7 +131,7 @@
 	    	$Data = json_decode($JSONString);
 		$Message = utf8_decode($Data->Buffer);
 		$Message = trim($Message, "\x00..\x1F");			
-		$this->SendDebug("ReceiveData", $Message, 0);
+		//$this->SendDebug("ReceiveData", $Message, 0);
 		$MessageParts = explode(PHP_EOL, $Message);
 		
 		for ($i = 0; $i < Count($MessageParts); $i++) {
