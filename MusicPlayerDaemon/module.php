@@ -119,8 +119,9 @@
 		for ($i = 0; $i < Count($MessageParts); $i++) {
 		//  repeat: 0<LF>random: 0<LF>single: 0<LF>consume: 0<LF>partition: default<LF>playlist: 6<LF>playlistlength: 1<LF>mixrampdb: 0.000000<LF>state: pause<LF>song: 0<LF>songid: 3<LF>time: 0:0<LF>elapsed: 0.000<LF>bitrate: 0<LF>audio: 48000:24:2<LF>error: Failed to enable output "default detected output" (jack); Failed to connect to JACK server, status=17<LF>OK
 			
-			$MessageValue = explode(PHP_EOL, $MessageParts[$i]);
+			$MessageValue = explode(":", $MessageParts[$i]);
 			$this->SendDebug("ReceiveData", "MessageValue: ".$MessageValue[0], 0);
+			
 			switch($MessageValue[0]) {
 				case preg_match('/OK MPD.*/', $MessageValue[0]) ? $MessageValue[0] : !$MessageValue[0]:
 					$this->SetValue("LastKeepAlive", time() );
