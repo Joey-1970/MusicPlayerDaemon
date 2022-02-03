@@ -15,11 +15,18 @@
 		$this->RegisterPropertyInteger("Port", 6600);
 		$this->RegisterPropertyString("RadioStations", "");
 		
+		// Profile anlegen
+		$this->RegisterProfileInteger("MusicPlayerDaemon.RadioStations_".$this->InstanceID, "Melody", "", "", 0, 10, 0);
+		
+		
 		// Status-Variablen anlegen
 		$this->RegisterVariableInteger("LastKeepAlive", "Letztes Keep Alive", "~UnixTimestamp", 10);
 		
 		$this->RegisterVariableInteger("Volume","Volume","~Intensity.100", 50);
 		$this->EnableAction("Volume");
+		
+		$this->RegisterVariableInteger("RadioStations", "Radiosender", "MusicPlayerDaemon.RadioStations_".$this->InstanceID, 60);
+		$this->EnableAction("RadioStations");
 
         }
        	
@@ -97,9 +104,10 @@
 					If ($this->GetStatus() <> 102) {
 						$this->SetStatus(102);
 					}
-					$this->SetNewStation("https://www.ndr.de/resources/metadaten/audio/m3u/ndr2_hh.m3u");
+					$this->SetRadioStationsAssociations();
+					$this->SetNewStation("http://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3");
 					$this->Status();
-					$this->GetVolume();
+					//$this->GetVolume();
 				}
 			}
 			else {
@@ -118,6 +126,9 @@
   		switch($Ident) {
 			case "Volume":
 				$this->SetVolume($Value);
+				break;
+			case "RadioStations":
+				
 				break;
 	      		
 	        default:
@@ -216,6 +227,30 @@
 			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $Command)));
 		}
 	}
+	
+	private function SetRadioStationsAssociations()
+	{
+		// Aktuelles Profil aufräumen
+		$this->SendDebug("SetRadioStationsAssociations", "Ausfuehrung", 0);
+		$ProfilArray = Array();
+		$ProfilArray = IPS_GetVariableProfile("MusicPlayerDaemon.RadioStations_".$this->InstanceID);
+		foreach ($ProfilArray["Associations"] as $Association)
+		{
+			@IPS_SetVariableProfileAssociation("MusicPlayerDaemon.RadioStations_".$this->InstanceID, $Association["Value"], "", "", -1);
+		}
+		
+		$RadioStationsString = $this->ReadPropertyString("RadioStations");
+		$RadioStations = json_decode($RadioStationsString);
+		$this->SendDebug("SetRadioStationsAssociations", serialize($RadioStations), 0);
+		
+		$i = 0;
+		foreach ($RadioStations as $Key => $Value) {
+			$this->SendDebug("SetRadioStationsAssociations", $Value->RadioStationName." mit Link ".$Value->RadioStationLink." hinzugefuegt", 0);
+			IPS_SetVariableProfileAssociation("MusicPlayerDaemon.RadioStations_".$this->InstanceID, $i, $Value->RadioStationName, "Melody", -1);
+			$i++;
+		}
+		
+	}    
 	    
 	private function ConnectionTest()
 	{
