@@ -18,12 +18,19 @@
 		// Profile anlegen
 		$this->RegisterProfileInteger("MusicPlayerDaemon.RadioStations_".$this->InstanceID, "Melody", "", "", 0, 10, 0);
 		
+		$this->RegisterProfileInteger("MusicPlayerDaemon.Remote", "Remote", "", "", 0, 2, 0);
+		IPS_SetVariableProfileAssociation("MusicPlayerDaemon.Remote", 1, "Stop", "Remote", -1);
+		IPS_SetVariableProfileAssociation("MusicPlayerDaemon.Remote", 2, "Pause", "Remote", -1);
+		IPS_SetVariableProfileAssociation("MusicPlayerDaemon.Remote", 3, "Play", "Remote", -1);
 		
 		// Status-Variablen anlegen
 		$this->RegisterVariableInteger("LastKeepAlive", "Letztes Keep Alive", "~UnixTimestamp", 10);
 		
 		$this->RegisterVariableInteger("Volume","Volume","~Intensity.100", 50);
 		$this->EnableAction("Volume");
+		
+		$this->RegisterVariableInteger("Remote", "Remote", "MusicPlayerDaemon.Remote", 50);
+		$this->EnableAction("Remote");
 		
 		$this->RegisterVariableInteger("RadioStations", "Radiosender", "MusicPlayerDaemon.RadioStations_".$this->InstanceID, 60);
 		$this->EnableAction("RadioStations");
@@ -127,6 +134,18 @@
 			case "Volume":
 				$this->SetVolume($Value);
 				break;
+			case "Remote":
+				If ($Value == 1) {
+					$this->Stop();
+				} 
+				ElseIf ($Value == 2) { 
+					$this->Pause(1);
+				}
+				ElseIf ($Value == 3) { 
+					$this->Play();
+				}
+				$this->SetValue($Ident, $Value);
+				break;
 			case "RadioStations":
 				$RadioStationsString = $this->ReadPropertyString("RadioStations");
 				$RadioStations = json_decode($RadioStationsString);
@@ -204,6 +223,16 @@
 					break;
 				case "state":
 					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
+					If ($MessageValue[1] == "Play") {
+						$this->SetValue("Remote", 3);
+					}
+					elseif If ($MessageValue[1] == "Pause") {
+						$this->SetValue("Remote", 2);
+					}
+					elseif If ($MessageValue[1] == "Stop") {
+						$this->SetValue("Remote", 1);
+					}
+						
 					break;
 				case "song":
 					$this->SendDebug("ReceiveData", "Song: ".$MessageValue[1], 0);
