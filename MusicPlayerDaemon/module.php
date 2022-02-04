@@ -133,7 +133,7 @@
 				$i = 0;
 				foreach ($RadioStations as $Key => $Link) {
 					If ($i == $Value) {
-						$this->SendDebug("RequestAction", "Radiostationslink: ".$Link, 0);
+						$this->SendDebug("RequestAction", "Radiostationslink: ".$Link->RadioStationLink, 0);
 					}
 					$i++;
 				}
