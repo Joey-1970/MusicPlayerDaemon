@@ -138,10 +138,10 @@
 				If ($Value == 1) {
 					$this->Stop();
 				} 
-				ElseIf ($Value == 2) { 
+				elseIf ($Value == 2) { 
 					$this->Pause(1);
 				}
-				ElseIf ($Value == 3) { 
+				elseIf ($Value == 3) { 
 					$this->Play();
 				}
 				$this->SetValue($Ident, $Value);
@@ -226,10 +226,10 @@
 					If ($MessageValue[1] == "Play") {
 						$this->SetValue("Remote", 3);
 					}
-					elseif If ($MessageValue[1] == "Pause") {
+					elseif ($MessageValue[1] == "Pause") {
 						$this->SetValue("Remote", 2);
 					}
-					elseif If ($MessageValue[1] == "Stop") {
+					elseif ($MessageValue[1] == "Stop") {
 						$this->SetValue("Remote", 1);
 					}
 						
