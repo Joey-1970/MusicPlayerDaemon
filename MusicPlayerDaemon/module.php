@@ -138,7 +138,7 @@
 					}
 					$i++;
 				}
-				
+				$this->SetValue($Ident, $Value);
 				
 				break;
 	      		
@@ -172,7 +172,11 @@
 					$this->SendDebug("ReceiveData", "OK: Befehl erfolgreich", 0);
 					break;
 				case "error":
-					$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1], 0);
+					If (isset($MessageValue[2])) {
+						$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1].":".$MessageValue[2], 0);
+					} else {
+						$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1], 0);
+					}
 					break;
 				case "repeat":
 					$this->SendDebug("ReceiveData", "Repeat: ".$MessageValue[1], 0);
