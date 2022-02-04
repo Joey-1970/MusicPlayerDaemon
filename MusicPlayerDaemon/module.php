@@ -157,10 +157,8 @@
 		$MessageParts = explode(PHP_EOL, $Message);
 		
 		for ($i = 0; $i < Count($MessageParts); $i++) {
-		//  repeat: 0<LF>random: 0<LF>single: 0<LF>consume: 0<LF>partition: default<LF>playlist: 6<LF>playlistlength: 1<LF>mixrampdb: 0.000000<LF>state: pause<LF>song: 0<LF>songid: 3<LF>time: 0:0<LF>elapsed: 0.000<LF>bitrate: 0<LF>audio: 48000:24:2<LF>error: Failed to enable output "default detected output" (jack); Failed to connect to JACK server, status=17<LF>OK
-			
 			$MessageValue = explode(":", $MessageParts[$i]);
-			$this->SendDebug("ReceiveData", "MessageValue: ".$MessageValue[0], 0);
+			//$this->SendDebug("ReceiveData", "MessageValue: ".$MessageValue[0], 0);
 			
 			switch($MessageValue[0]) {
 				case preg_match('/OK MPD.*/', $MessageValue[0]) ? $MessageValue[0] : !$MessageValue[0]:
@@ -176,6 +174,52 @@
 				case "error":
 					$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1], 0);
 					break;
+				case "repeat":
+					$this->SendDebug("ReceiveData", "Repeat: ".$MessageValue[1], 0);
+					break;
+				case "random":
+					$this->SendDebug("ReceiveData", "Random: ".$MessageValue[1], 0);
+					break;
+				case "single":
+					$this->SendDebug("ReceiveData", "Single: ".$MessageValue[1], 0);
+					break;
+				case "consume":
+					$this->SendDebug("ReceiveData", "Consume: ".$MessageValue[1], 0);
+					break;
+				case "partition":
+					$this->SendDebug("ReceiveData", "Partition: ".$MessageValue[1], 0);
+					break;
+				case "playlist":
+					$this->SendDebug("ReceiveData", "Playlist: ".$MessageValue[1], 0);
+					break;
+				case "playlistlength":
+					$this->SendDebug("ReceiveData", "Playlistlength: ".$MessageValue[1], 0);
+					break;
+				case "mixrampdb":
+					$this->SendDebug("ReceiveData", "Mixrampdb: ".$MessageValue[1], 0);
+					break;
+				case "state":
+					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
+					break;
+				case "song":
+					$this->SendDebug("ReceiveData", "Song: ".$MessageValue[1], 0);
+					break;
+				case "songid":
+					$this->SendDebug("ReceiveData", "Songid: ".$MessageValue[1], 0);
+					break;
+				case "time":
+					$this->SendDebug("ReceiveData", "Time: ".$MessageValue[1], 0);
+					break;
+				case "elapsed":
+					$this->SendDebug("ReceiveData", "Elapsed: ".$MessageValue[1], 0);
+					break;
+				case "bitrate":
+					$this->SendDebug("ReceiveData", "Bitrate: ".$MessageValue[1], 0);
+					break;
+				case "audio":
+					$this->SendDebug("ReceiveData", "Audio: ".$MessageValue[1], 0);
+					break;
+				
 				
 			}
 		}
@@ -219,7 +263,8 @@
 		$this->SendCommand("clear\n");
 		$this->SendCommand("add ".$StationURL." \n");
 		usleep(50000);
-		$this->SendCommand("play\n");
+		$this->Play();
+		$this->Status();
 	}
 
 	public function SetVolume(int $Volume) 
