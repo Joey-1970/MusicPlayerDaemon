@@ -196,11 +196,16 @@
 					$this->SendDebug("ReceiveData", "OK: Befehl erfolgreich", 0);
 					break;
 				case "error":
+					$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValues)
+					$this->SendDebug("ReceiveData", "Fehler: ".$MessageDisplay, 0);
+					/*
 					If (isset($MessageValue[2])) {
 						$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1].":".$MessageValue[2], 0);
 					} else {
 						$this->SendDebug("ReceiveData", "Fehler: ".$MessageValue[1], 0);
 					}
+					*/
 					break;
 				case "repeat":
 					$this->SendDebug("ReceiveData", "Repeat: ".$MessageValue[1], 0);
@@ -230,6 +235,7 @@
 					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
 					If ($MessageValue[1] == "Play") {
 						$this->SetValue("Remote", 3);
+						$this->CurrentSong();
 					}
 					elseif ($MessageValue[1] == "Pause") {
 						$this->SetValue("Remote", 2);
@@ -255,14 +261,22 @@
 					$this->SendDebug("ReceiveData", "Bitrate: ".$MessageValue[1], 0);
 					break;
 				case "audio":
-					$this->SendDebug("ReceiveData", "Audio: ".$MessageValue[1], 0);
+					$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValues)
+					$this->SendDebug("ReceiveData", "Audio: ".$MessageDisplay, 0);
+					//$this->SendDebug("ReceiveData", "Audio: ".$MessageValue[1], 0);
 					break;
 				case "file":
+					$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValues)
+					$this->SendDebug("ReceiveData", "File: ".$MessageDisplay, 0);
+					/*
 					If (isset($MessageValue[2])) {
 						$this->SendDebug("ReceiveData", "File: ".$MessageValue[1].":".$MessageValue[2], 0);
 					} else {
 						$this->SendDebug("ReceiveData", "File: ".$MessageValue[1], 0);
 					}
+					*/
 					break;
 				case "Title":
 					$this->SendDebug("ReceiveData", "Titel: ".$MessageValue[1], 0);
