@@ -14,6 +14,7 @@
 		$this->RegisterPropertyString("IPAddress", "127.0.0.1");
 		$this->RegisterPropertyInteger("Port", 6600);
 		$this->RegisterPropertyString("RadioStations", "");
+		$this->RegisterTimer("Status", 0, 'MusicPlayerDaemon_Status($_IPS["TARGET"]);');
 		
 		// Profile anlegen
 		$this->RegisterProfileInteger("MusicPlayerDaemon.RadioStations_".$this->InstanceID, "Melody", "", "", 0, 10, 0);
@@ -114,12 +115,14 @@
 					$this->SetRadioStationsAssociations();
 					$this->SetNewStation("http://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3");
 					$this->Status();
+					$this->SetTimerInterval("Status", 3 * 1000);
 					//$this->GetVolume();
 				}
 			}
 			else {
 				If ($this->GetStatus() <> 104) {
 					$this->SetStatus(104);
+					$this->SetTimerInterval("Status", 0);
 				}
 			}	   
 		}
@@ -172,7 +175,7 @@
 	    	$Data = json_decode($JSONString);
 		$Message = utf8_decode($Data->Buffer);
 		$Message = trim($Message, "\x00..\x1F");			
-		//$this->SendDebug("ReceiveData", $Message, 0);
+		$this->SendDebug("ReceiveData", $Message, 0);
 		$MessageParts = explode(PHP_EOL, $Message);
 		
 		for ($i = 0; $i < Count($MessageParts); $i++) {
