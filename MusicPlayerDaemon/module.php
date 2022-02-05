@@ -196,9 +196,9 @@
 					$this->SendDebug("ReceiveData", "OK: Befehl erfolgreich", 0);
 					break;
 				case "error":
-					$MessageValues = array_shift($MessageValue);
-					//$MessageDisplay = implode(":", $MessageValues);
-					$MessageDisplay = implode($MessageValues, ":");
+					//$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValue);
+					//$MessageDisplay = implode($MessageValues, ":");
 					$this->SendDebug("ReceiveData", "Fehler: ".$MessageDisplay, 0);
 					/*
 					If (isset($MessageValue[2])) {
@@ -262,16 +262,16 @@
 					$this->SendDebug("ReceiveData", "Bitrate: ".$MessageValue[1], 0);
 					break;
 				case "audio":
-					$MessageValues = array_shift($MessageValue);
-					//$MessageDisplay = implode(":", $MessageValues);
-					$MessageDisplay = implode($MessageValues, ":");
+					//$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValue);
+					//$MessageDisplay = implode($MessageValues, ":");
 					$this->SendDebug("ReceiveData", "Audio: ".$MessageDisplay, 0);
 					//$this->SendDebug("ReceiveData", "Audio: ".$MessageValue[1], 0);
 					break;
 				case "file":
-					$MessageValues = array_shift($MessageValue);
-					//$MessageDisplay = implode(":", $MessageValues);
-					$MessageDisplay = implode($MessageValues, ":");
+					//$MessageValues = array_shift($MessageValue);
+					$MessageDisplay = implode(":", $MessageValue);
+					//$MessageDisplay = implode($MessageValues, ":");
 					$this->SendDebug("ReceiveData", "File: ".$MessageDisplay, 0);
 					/*
 					If (isset($MessageValue[2])) {
