@@ -290,6 +290,11 @@
 	{
 		$this->SendCommand("next\n");
 	}
+	    
+	public function CurrentSong() 
+	{
+		$this->SendCommand("currentsong\n");
+	}
 
 	public function SetNewStation(String $StationURL) 
 	{
@@ -314,6 +319,9 @@
 	{
 		If (($this->HasActiveParent()) AND ($this->ReadPropertyBoolean("Open") == true)) {
 			$this->SendDataToParent(json_encode(Array("DataID" => "{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}", "Buffer" => $Command)));
+		}
+		else {
+			$this->SendDebug("SendCommand", "Voraussetzungen nicht erfuellt!", 0);
 		}
 	}
 	
