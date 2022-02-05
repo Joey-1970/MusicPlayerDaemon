@@ -179,6 +179,7 @@
 		$Message = trim($Message, "\x00..\x1F");			
 		$this->SendDebug("ReceiveData", $Message, 0);
 		$MessageParts = explode(PHP_EOL, $Message);
+		$this->SetValue("LastKeepAlive", time() );
 		
 		for ($i = 0; $i < Count($MessageParts); $i++) {
 			$MessageValue = explode(":", $MessageParts[$i]);
@@ -186,10 +187,9 @@
 			
 			switch($MessageValue[0]) {
 				case preg_match('/OK MPD.*/', $MessageValue[0]) ? $MessageValue[0] : !$MessageValue[0]:
-					$this->SetValue("LastKeepAlive", time() );
+					$this->SendDebug("ReceiveData", "Version: ".$MessageValue[0], 0);
 					break;
 				case preg_match('/ACK.*/', $MessageValue[0]) ? $MessageValue[0] : !$MessageValue[0]:
-					$this->SetValue("LastKeepAlive", time() );
 					$this->SendDebug("ReceiveData", "ACK: Ein Fehler ist aufgetreten!", 0);
 					break;
 				case "OK":
@@ -228,14 +228,20 @@
 					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
 					$MessageValue[1] = trim($MessageValue[1]);
 					If ($MessageValue[1] == "play") {
-						$this->SetValue("Remote", 3);
+						If ($this->GetValue("Remote") <> 3) {
+							$this->SetValue("Remote", 3);
+						}
 						$this->CurrentSong();
 					}
 					elseif ($MessageValue[1] == "pause") {
-						$this->SetValue("Remote", 2);
+						If ($this->GetValue("Remote") <> 2) {
+							$this->SetValue("Remote", 2);
+						}
 					}
 					elseif ($MessageValue[1] == "stop") {
-						$this->SetValue("Remote", 1);
+						If ($this->GetValue("Remote") <> 1) {
+							$this->SetValue("Remote", 1);
+						}
 					}
 						
 					break;
@@ -266,7 +272,10 @@
 					break;
 				case "Title":
 					$this->SendDebug("ReceiveData", "Titel: ".$MessageValue[1], 0);
-					$this->SetValue("Title", $MessageValue[1]); 
+					$MessageValue[1] = trim($MessageValue[1]);
+					If ($this->GetValue("Title") <> 3) {
+						$this->SetValue("Title", $MessageValue[1]); 
+					}
 					break;
 				case "Name":
 					$this->SendDebug("ReceiveData", "Name: ".$MessageValue[1], 0);
