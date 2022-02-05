@@ -226,6 +226,7 @@
 					break;
 				case "state":
 					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
+					$MessageValue[1] = trim($MessageValue[1]);
 					If ($MessageValue[1] == "play") {
 						$this->SetValue("Remote", 3);
 						$this->CurrentSong();
