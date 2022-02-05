@@ -35,6 +35,8 @@
 		
 		$this->RegisterVariableInteger("RadioStations", "Radiosender", "MusicPlayerDaemon.RadioStations_".$this->InstanceID, 60);
 		$this->EnableAction("RadioStations");
+		
+		$this->RegisterVariableString("Title", "Titel", "", 70);
 
         }
        	
@@ -255,6 +257,27 @@
 				case "audio":
 					$this->SendDebug("ReceiveData", "Audio: ".$MessageValue[1], 0);
 					break;
+				case "file":
+					If (isset($MessageValue[2])) {
+						$this->SendDebug("ReceiveData", "File: ".$MessageValue[1].":".$MessageValue[2], 0);
+					} else {
+						$this->SendDebug("ReceiveData", "File: ".$MessageValue[1], 0);
+					}
+					break;
+				case "Title":
+					$this->SendDebug("ReceiveData", "Titel: ".$MessageValue[1], 0);
+					$this->SetValue("Title", $MessageValue[1]); 
+					break;
+				case "Name":
+					$this->SendDebug("ReceiveData", "Name: ".$MessageValue[1], 0);
+					break;
+				case "Pos":
+					$this->SendDebug("ReceiveData", "Pos: ".$MessageValue[1], 0);
+					break;
+				case "Id":
+					$this->SendDebug("ReceiveData", "Id: ".$MessageValue[1], 0);
+					break;
+					
 				
 				
 			}
