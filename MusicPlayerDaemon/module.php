@@ -273,7 +273,7 @@
 				case "Title":
 					$this->SendDebug("ReceiveData", "Titel: ".$MessageValue[1], 0);
 					$MessageValue[1] = trim($MessageValue[1]);
-					If ($this->GetValue("Title") <> 3) {
+					If ($this->GetValue("Title") <> $MessageValue[1]) {
 						$this->SetValue("Title", $MessageValue[1]); 
 					}
 					break;
