@@ -375,9 +375,9 @@
 		$this->SendCommand("setvol ".$Volume."\n");
 	}
 	
-	public function GetVolume() 
+	public function Outputs() 
 	{
-		$this->SendCommand("getvol\n");
+		$this->SendCommand("outputs\n");
 	}
 	
 	public function Albumart() 
