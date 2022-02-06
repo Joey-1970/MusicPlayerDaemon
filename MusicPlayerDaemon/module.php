@@ -174,6 +174,7 @@
 					If ($i == $Value) {
 						//$this->SendDebug("RequestAction", "Radiostationslink: ".$Link->RadioStationLink, 0);
 						$this->SetNewStation($Link->RadioStationLink);
+						$this->ShowLogo($Value);
 					}
 					$i++;
 				}
@@ -411,7 +412,29 @@
 			$i++;
 		}
 		
-	}    
+	}  
+	    
+	private function ShowLogo(int $RadioStation)
+	{
+		$RadioStationsString = $this->ReadPropertyString("RadioStations");
+		$RadioStations = json_decode($RadioStationsString);
+		$i = 0;
+		foreach ($RadioStations as $Key => $Link) {
+			If ($i == $RadioStation) {
+				If ($Link->RadioStationLogo > 0) {
+					$Content = GetValue($Link->RadioStationLogo);
+					
+				}
+				else {
+					$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
+				}
+				IPS_SetMediaContent($this->GetIDForIdent("Logo_".$this->InstanceID), base64_encode($Content));  //Bild Base64 codieren und ablegen
+				IPS_SendMediaEvent($this->GetIDForIdent("Logo_".$this->InstanceID)); //aktualisieren
+			}
+			$i++;
+		}
+		$this->SetValue($Ident, $Value);
+	}
 	    
 	private function ConnectionTest()
 	{
