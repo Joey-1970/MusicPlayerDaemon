@@ -425,9 +425,8 @@
 		foreach ($RadioStations as $Key => $Media) {
 			If ($i == $RadioStation) {
 				If ($Media->RadioStationLogo > 0) {
-					$Content = base64_decode($Media->RadioStationLogo);
-					//$Content = GetValue($Media->RadioStationLogo);
-					
+					$this->SendDebug("ShowLogo", "Media-Objekt-ID: ".$Media->RadioStationLogo), 0);
+					$Content = base64_decode(IPS_GetMediaContent($Media->RadioStationLogo));
 				}
 				else {
 					$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
