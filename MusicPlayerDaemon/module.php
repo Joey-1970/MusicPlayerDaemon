@@ -267,6 +267,9 @@
 						If ($this->GetValue("Title") <> "-") {
 							$this->SetValue("Title", "-"); 
 						}
+						$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
+						IPS_SetMediaContent($this->GetIDForIdent("Logo_".$this->InstanceID), base64_encode($Content));  //Bild Base64 codieren und ablegen
+						IPS_SendMediaEvent($this->GetIDForIdent("Logo_".$this->InstanceID)); //aktualisieren
 					}
 						
 					break;
