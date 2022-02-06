@@ -316,9 +316,19 @@
 				case "Id":
 					$this->SendDebug("ReceiveData", "Id: ".intval($MessageValue[1]), 0);
 					break;
+				case "outputid":
+					$this->SendDebug("ReceiveData", "Audio Output ID: ".intval($MessageValue[1]), 0);
+					break;	
+				case "outputname":
+					$this->SendDebug("ReceiveData", "Audio Output Name: ".trim($MessageValue[1]), 0);
+					break;
+				case "plugin":
+					$this->SendDebug("ReceiveData", "Audio Output Plugin: ".trim($MessageValue[1]), 0);
+					break;	
+				case "outputenabled":
+					$this->SendDebug("ReceiveData", "Audio Output Enabled: ".intval($MessageValue[1]), 0);
+					break;		
 					
-				
-				
 			}
 		}
 		
