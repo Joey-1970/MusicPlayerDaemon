@@ -422,7 +422,8 @@
 		foreach ($RadioStations as $Key => $Media) {
 			If ($i == $RadioStation) {
 				If ($Media->RadioStationLogo > 0) {
-					$Content = GetValue($Media->RadioStationLogo);
+					$Content = base64_decode($Media->RadioStationLogo);
+					//$Content = GetValue($Media->RadioStationLogo);
 					
 				}
 				else {
