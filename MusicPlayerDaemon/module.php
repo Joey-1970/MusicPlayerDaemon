@@ -252,19 +252,19 @@
 						
 					break;
 				case "song":
-					$this->SendDebug("ReceiveData", "Song: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Song: ".intval($MessageValue[1]), 0);
 					break;
 				case "songid":
-					$this->SendDebug("ReceiveData", "Songid: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Songid: ".intval($MessageValue[1]), 0);
 					break;
 				case "time":
-					$this->SendDebug("ReceiveData", "Time: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Time: ".intval($MessageValue[1]), 0);
 					break;
 				case "elapsed":
-					$this->SendDebug("ReceiveData", "Elapsed: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Elapsed: ".floatval($MessageValue[1]), 0);
 					break;
 				case "bitrate":
-					$this->SendDebug("ReceiveData", "Bitrate: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Bitrate: ".intval($MessageValue[1]), 0);
 					break;
 				case "audio":
 					array_shift($MessageValue);
@@ -274,23 +274,23 @@
 				case "file":
 					array_shift($MessageValue);
 					$MessageDisplay = implode(":", $MessageValue);
-					$this->SendDebug("ReceiveData", "File: ".$MessageDisplay, 0);
+					$this->SendDebug("ReceiveData", "File: ".Trim($MessageDisplay), 0);
 					break;
 				case "Title":
-					$this->SendDebug("ReceiveData", "Titel: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Titel: ".trim($MessageValue[1]), 0);
 					$MessageValue[1] = trim($MessageValue[1]);
 					If ($this->GetValue("Title") <> $MessageValue[1]) {
 						$this->SetValue("Title", $MessageValue[1]); 
 					}
 					break;
 				case "Name":
-					$this->SendDebug("ReceiveData", "Name: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Name: ".trim($MessageValue[1]), 0);
 					break;
 				case "Pos":
-					$this->SendDebug("ReceiveData", "Pos: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Pos: ".intval($MessageValue[1]), 0);
 					break;
 				case "Id":
-					$this->SendDebug("ReceiveData", "Id: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Id: ".intval($MessageValue[1]), 0);
 					break;
 					
 				
