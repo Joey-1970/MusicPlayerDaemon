@@ -18,6 +18,8 @@
 		
 		// Profile anlegen
 		$this->RegisterProfileInteger("MusicPlayerDaemon.RadioStations_".$this->InstanceID, "Melody", "", "", 0, 10, 0);
+		$this->RegisterMediaObject("Logo", "Logo_".$this->InstanceID, 1, $this->InstanceID, 100, true, "Logo");
+		
 		
 		$this->RegisterProfileInteger("MusicPlayerDaemon.Remote", "Remote", "", "", 0, 2, 0);
 		IPS_SetVariableProfileAssociation("MusicPlayerDaemon.Remote", 1, "Stop", "Remote", -1);
@@ -82,6 +84,10 @@
         {
                 // Diese Zeile nicht löschen
                 parent::ApplyChanges();
+		
+		$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
+		IPS_SetMediaContent($this->GetIDForIdent("Logo_".$this->InstanceID), base64_encode($Content));  //Bild Base64 codieren und ablegen
+		IPS_SendMediaEvent($this->GetIDForIdent("Logo_".$this->InstanceID)); //aktualisieren
 		
 		If (IPS_GetKernelRunlevel() == KR_READY) {
 			$ParentID = $this->GetParentID();
@@ -438,7 +444,28 @@
 		$ParentID = (IPS_GetInstance($this->InstanceID)['ConnectionID']);  
 	return $ParentID;
 	}
-
+	
+	private function RegisterMediaObject($Name, $Ident, $Typ, $Parent, $Position, $Cached, $Filename)
+	{
+		$MediaID = @$this->GetIDForIdent($Ident);
+		if($MediaID === false) {
+		    	$MediaID = 0;
+		}
+		
+		if ($MediaID == 0) {
+			 // Image im MedienPool anlegen
+			$MediaID = IPS_CreateMedia($Typ); 
+			// Medienobjekt einsortieren unter Kategorie $catid
+			IPS_SetParent($MediaID, $Parent);
+			IPS_SetIdent($MediaID, $Ident);
+			IPS_SetName($MediaID, $Name);
+			IPS_SetPosition($MediaID, $Position);
+                    	IPS_SetMediaCached($MediaID, $Cached);
+			$ImageFile = IPS_GetKernelDir()."media".DIRECTORY_SEPARATOR.$Filename;  // Image-Datei
+			IPS_SetMediaFile($MediaID, $ImageFile, false);    // Image im MedienPool mit Image-Datei verbinden
+		}  
+	}     
+	    
 	private function RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize)
 	{
 	        if (!IPS_VariableProfileExists($Name))
