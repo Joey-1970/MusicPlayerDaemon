@@ -433,7 +433,6 @@
 			}
 			$i++;
 		}
-		$this->SetValue($Ident, $Value);
 	}
 	    
 	private function ConnectionTest()
