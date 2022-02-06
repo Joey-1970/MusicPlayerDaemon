@@ -200,32 +200,38 @@
 					$MessageDisplay = implode(":", $MessageValue);
 					$this->SendDebug("ReceiveData", "Fehler: ".$MessageDisplay, 0);
 					break;
+				case "volume":
+					$this->SendDebug("ReceiveData", "Volume: ".intval($MessageValue[1]), 0);
+					If ($this->GetValue("Volume") <> intval($MessageValue[1])) {
+						$this->SetValue("Volume", intval($MessageValue[1]));
+					}
+					break;
 				case "repeat":
-					$this->SendDebug("ReceiveData", "Repeat: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Repeat: ".intval($MessageValue[1]), 0);
 					break;
 				case "random":
-					$this->SendDebug("ReceiveData", "Random: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Random: ".intval($MessageValue[1]), 0);
 					break;
 				case "single":
-					$this->SendDebug("ReceiveData", "Single: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Single: ".intval($MessageValue[1]), 0);
 					break;
 				case "consume":
-					$this->SendDebug("ReceiveData", "Consume: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Consume: ".intval($MessageValue[1]), 0);
 					break;
 				case "partition":
-					$this->SendDebug("ReceiveData", "Partition: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Partition: ".trim($MessageValue[1]), 0);
 					break;
 				case "playlist":
-					$this->SendDebug("ReceiveData", "Playlist: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Playlist: ".intval($MessageValue[1]), 0);
 					break;
 				case "playlistlength":
-					$this->SendDebug("ReceiveData", "Playlistlength: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Playlistlength: ".intval($MessageValue[1]), 0);
 					break;
 				case "mixrampdb":
-					$this->SendDebug("ReceiveData", "Mixrampdb: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "Mixrampdb: ".floatval($MessageValue[1]), 0);
 					break;
 				case "state":
-					$this->SendDebug("ReceiveData", "State: ".$MessageValue[1], 0);
+					$this->SendDebug("ReceiveData", "State: ".trim($MessageValue[1]), 0);
 					$MessageValue[1] = trim($MessageValue[1]);
 					If ($MessageValue[1] == "play") {
 						If ($this->GetValue("Remote") <> 3) {
