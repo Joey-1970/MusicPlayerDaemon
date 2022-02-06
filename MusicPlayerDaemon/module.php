@@ -18,7 +18,7 @@
 		
 		// Profile anlegen
 		$this->RegisterProfileInteger("MusicPlayerDaemon.RadioStations_".$this->InstanceID, "Melody", "", "", 0, 10, 0);
-		$this->RegisterMediaObject("Logo", "Logo_".$this->InstanceID, 1, $this->InstanceID, 100, true, "Logo");
+		$this->RegisterMediaObject("Logo", "Logo_".$this->InstanceID, 1, $this->InstanceID, 100, true, "Logo.png");
 		
 		
 		$this->RegisterProfileInteger("MusicPlayerDaemon.Remote", "Remote", "", "", 0, 2, 0);
