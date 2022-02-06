@@ -108,24 +108,28 @@
 				}
 			}
 			
+			If ($this->GetValue("Remote") <> 1) {
+				$this->SetValue("Remote", 1);
+			}
+			If ($this->GetValue("Title") <> "-") {
+				$this->SetValue("Title", "-"); 
+			}
+			
 			If ($this->ReadPropertyBoolean("Open") == true) {
-				
 				If ($this->ConnectionTest() == true) {
 					If ($this->GetStatus() <> 102) {
 						$this->SetStatus(102);
 					}
 					$this->SetRadioStationsAssociations();
-					$this->SetNewStation("http://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3");
 					$this->Status();
 					$this->SetTimerInterval("Status", 3 * 1000);
-					//$this->GetVolume();
 				}
 			}
 			else {
 				If ($this->GetStatus() <> 104) {
 					$this->SetStatus(104);
-					$this->SetTimerInterval("Status", 0);
 				}
+				$this->SetTimerInterval("Status", 0);
 			}	   
 		}
 		
