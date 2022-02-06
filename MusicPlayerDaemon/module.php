@@ -252,6 +252,7 @@
 					If ($MessageValue[1] == "play") {
 						If ($this->GetValue("Remote") <> 3) {
 							$this->SetValue("Remote", 3);
+							$this->ShowLogo($this->GetValue("RadioStations") );
 						}
 						$this->CurrentSong();
 					}
@@ -263,13 +264,14 @@
 					elseif ($MessageValue[1] == "stop") {
 						If ($this->GetValue("Remote") <> 1) {
 							$this->SetValue("Remote", 1);
+							$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
+							IPS_SetMediaContent($this->GetIDForIdent("Logo_".$this->InstanceID), base64_encode($Content));  //Bild Base64 codieren und ablegen
+							IPS_SendMediaEvent($this->GetIDForIdent("Logo_".$this->InstanceID)); //aktualisieren
 						}
 						If ($this->GetValue("Title") <> "-") {
 							$this->SetValue("Title", "-"); 
 						}
-						$Content = file_get_contents(__DIR__ . '/../imgs/MPD_Logo.png'); 
-						IPS_SetMediaContent($this->GetIDForIdent("Logo_".$this->InstanceID), base64_encode($Content));  //Bild Base64 codieren und ablegen
-						IPS_SendMediaEvent($this->GetIDForIdent("Logo_".$this->InstanceID)); //aktualisieren
+						
 					}
 						
 					break;
