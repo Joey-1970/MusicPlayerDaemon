@@ -71,7 +71,7 @@
 		$arrayColumns = array();
 		$arrayColumns[] = array("label" => "Stationsname", "name" => "RadioStationName", "width" => "300px", "add" => "Radio GaGa", "edit" => $arrayEditName);
 		$arrayColumns[] = array("label" => "Link", "name" => "RadioStationLink", "width" => "500px", "add" => "http", "edit" => $arrayEditLink, "align" => "left");
-		$arrayColumns[] = array("label" => "Logo", "name" => "RadioStationLogo", "width" => "300px", "edit" => $arrayEditLogo, "align" => "right");
+		$arrayColumns[] = array("label" => "Logo", "name" => "RadioStationLogo", "width" => "300px", "add" => 0, "edit" => $arrayEditLogo, "align" => "right");
 
 		
 		$arrayElements[] = array("type" => "List", "name" => "RadioStations", "rowCount" => 10, "add" => true, "delete" => true, "sort" => $arraySort, "columns" => $arrayColumns);
