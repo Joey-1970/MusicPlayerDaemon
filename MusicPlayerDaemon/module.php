@@ -355,7 +355,12 @@
 	{
 		$this->SendCommand("getvol\n");
 	}
-	    
+	
+	public function Albumart() 
+	{
+		$this->SendCommand("albumart "."http://icecast.ndr.de/ndr/ndr2/hamburg/mp3/128/stream.mp3"." 0\n");
+	}
+
 	public function SendCommand(string $Command)
 	{
 		If (($this->HasActiveParent()) AND ($this->ReadPropertyBoolean("Open") == true)) {
