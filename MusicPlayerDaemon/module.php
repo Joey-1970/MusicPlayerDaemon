@@ -419,10 +419,10 @@
 		$RadioStationsString = $this->ReadPropertyString("RadioStations");
 		$RadioStations = json_decode($RadioStationsString);
 		$i = 0;
-		foreach ($RadioStations as $Key => $Link) {
+		foreach ($RadioStations as $Key => $Media) {
 			If ($i == $RadioStation) {
-				If ($Link->RadioStationLogo > 0) {
-					$Content = GetValue($Link->RadioStationLogo);
+				If ($Media->RadioStationLogo > 0) {
+					$Content = GetValue($Media->RadioStationLogo);
 					
 				}
 				else {
