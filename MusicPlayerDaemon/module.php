@@ -65,8 +65,8 @@
 		$arrayEditLink = array();
 		$arrayEditLink = array("type" => "ValidationTextBox");
 		
-		$arrayEditMedia = array();
-		$arrayEditMedia = array("type" => "SelectMedia");
+		$arrayEditLogo = array();
+		$arrayEditLogo = array("type" => "SelectMedia");
 		
 		$arrayColumns = array();
 		$arrayColumns[] = array("label" => "Stationsname", "name" => "RadioStationName", "width" => "300px", "add" => "Radio GaGa", "edit" => $arrayEditName);
