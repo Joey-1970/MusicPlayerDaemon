@@ -248,6 +248,9 @@
 						If ($this->GetValue("Remote") <> 1) {
 							$this->SetValue("Remote", 1);
 						}
+						If ($this->GetValue("Title") <> "-") {
+							$this->SetValue("Title", "-"); 
+						}
 					}
 						
 					break;
@@ -269,12 +272,12 @@
 				case "audio":
 					array_shift($MessageValue);
 					$MessageDisplay = implode(":", $MessageValue);
-					$this->SendDebug("ReceiveData", "Audio: ".$MessageDisplay, 0);
+					$this->SendDebug("ReceiveData", "Audio: ".trim($MessageDisplay), 0);
 					break;
 				case "file":
 					array_shift($MessageValue);
 					$MessageDisplay = implode(":", $MessageValue);
-					$this->SendDebug("ReceiveData", "File: ".Trim($MessageDisplay), 0);
+					$this->SendDebug("ReceiveData", "File: ".trim($MessageDisplay), 0);
 					break;
 				case "Title":
 					$this->SendDebug("ReceiveData", "Titel: ".trim($MessageValue[1]), 0);
