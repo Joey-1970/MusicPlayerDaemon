@@ -156,22 +156,21 @@
  		switch ($Message) {
 			case IPS_KERNELSTARTED:
 				If ($this->ReadPropertyBoolean("Open") == true) {
-					If ($this->ReadPropertyBoolean("Open") == true) {
-						If ($this->ConnectionTest() == true) {
-							If ($this->GetStatus() <> 102) {
-								$this->SetStatus(102);
-							}
-							$this->SetRadioStationsAssociations();
-							$this->Status();
-							$this->SetTimerInterval("Status", 3 * 1000);
+					If ($this->ConnectionTest() == true) {
+						If ($this->GetStatus() <> 102) {
+							$this->SetStatus(102);
 						}
+						$this->SetRadioStationsAssociations();
+						$this->Status();
+						$this->SetTimerInterval("Status", 3 * 1000);
 					}
-					else {
-						If ($this->GetStatus() <> 104) {
-							$this->SetStatus(104);
-						}
-						$this->SetTimerInterval("Status", 0);
-					}	   
+				}
+				else {
+					If ($this->GetStatus() <> 104) {
+						$this->SetStatus(104);
+					}
+					$this->SetTimerInterval("Status", 0);
+				}	
 				break;
 			
 		}
